@@ -1,0 +1,289 @@
+---
+title: "01. Data Visualization"
+author: "Cole LaCroix"
+date: "2025-06-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Quick Tips:
+
+# cmd + opt + i = new chunk
+
+# cmd + opt + c = run chunk
+
+# cmd + opt + n = run current chunk and move to next
+
+# cmd + opt + r = run all chunks in document 
+
+# cmd + return = run current line
+```
+
+```{r}
+library(tidyverse)
+```
+```{r}
+library(palmerpenguins) 
+library(ggthemes)
+```
+
+```{r}
+penguins
+```
+
+```{r}
+glimpse(penguins)
+```
+
+```{r}
+ggplot(data = penguins)
+```
+
+```{r}
+ggplot(data = penguins, 
+       mapping = aes(x = flipper_length_mm, y = body_mass_g)
+       )
+```
+
+```{r}
+ggplot(
+  data = penguins, 
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point()
+```
+
+```{r}
+ggplot(
+  data = penguins, 
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)
+) +
+  geom_point()
+```
+```{r}
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)
+) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+```{r}
+ggplot(
+  data = penguins, 
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(mapping = aes(colour = species)) +
+  geom_smooth(method = "lm")
+```
+
+```{r}
+ggplot(
+  data = penguins, 
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(mapping = aes(colour = species, shape = species)) +
+  geom_smooth(method = "lm")
+```
+
+```{r}
+ggplot(
+  data = penguins, 
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) + 
+  geom_point(aes(colour = species, shape = species)) +
+  geom_smooth(method = "lm") + 
+  labs(
+    title = "Body mass and flipper length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", 
+    y = "Body mass (g)", 
+    color = "Species", 
+    shape = "Species"
+  ) + 
+  scale_color_colorblind()
+```
+```{r}
+# How many rows are in 'penguins'? How many columns?
+dim(penguins)
+```
+
+```{r}
+# What is the bill_depth_mm variable?
+?penguins
+
+# Answer: a number denoting bill depth
+```
+
+```{r}
+# Make a scatterplot of bill_depth_mm vs bill_length_mm
+ggplot(
+  data = penguins, 
+  aes(x = bill_length_mm, y = bill_depth_mm)
+) +
+  geom_point(aes(colour = species))
+```
+
+```{r}
+ggplot(
+  data = penguins, 
+  aes(x = species, y = bill_depth_mm, colour = species)
+) +
+  geom_boxplot()
+```
+```{r}
+# Appropriate use of na.rm
+
+ggplot(
+  data = penguins,
+  aes(x = flipper_length_mm, y = bill_length_mm), 
+) +
+  geom_point(aes(colour = species), na.rm = TRUE) +
+  labs(
+    caption = "Data comes from the palmerpenguins package"
+  )
+```
+```{r}
+# Recreate this visualization
+ggplot(
+  data = penguins, 
+  aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(aes(colour = bill_depth_mm)) +
+  geom_smooth(method = "lm") +
+  scale_color_gradient(low = "black", high = "lightblue")
+```
+```{r}
+ggplot(
+data = penguins,
+mapping = aes(x = flipper_length_mm, y = body_mass_g, color = island)
+) +
+geom_point() +
+geom_smooth(se = FALSE)
+```
+```{r}
+ggplot(
+data = penguins,
+mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+geom_point() +
+geom_smooth()
+ggplot() +
+geom_point(
+data = penguins,
+mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+geom_smooth(
+data = penguins,
+mapping = aes(x = flipper_length_mm, y = body_mass_g)
+)
+```
+```{r}
+ggplot(penguins, aes(x = species)) +
+  geom_bar()
+```
+
+```{r}
+ggplot(penguins, aes(x = fct_infreq(species))) +
+  geom_bar()
+```
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 200)
+```
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 20)
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 2000)
+```
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_density()
+```
+
+```{r}
+# Make a bar plot of species of penguins
+ggplot(penguins, aes(y = species, fill = species)) +
+  geom_bar()
+```
+
+```{r}
+ggplot(penguins, aes(x = species)) +
+geom_bar(color = "red")
+ggplot(penguins, aes(x = species)) +
+geom_bar(fill = "red")
+```
+
+```{r}
+ggplot(
+  penguins, 
+  aes(x = flipper_length_mm)
+) +
+  geom_histogram(bins = 20)
+```
+```{r}
+ggplot(diamonds, 
+       aes(x = carat)
+       ) +
+  geom_histogram()
+```
+
+```{r}
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+geom_boxplot()
+```
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g, color = species)) +
+geom_density(linewidth = 0.75)
+```
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g, color = species, fill = species)) +
+geom_density(alpha = 0.5)
+```
+```{r}
+ggplot(penguins, aes(x = island, fill = species)) +
+geom_bar()
+```
+
+```{r}
+ggplot(penguins, aes(x = island, fill = species)) +
+geom_bar(position = "fill")
+```
+
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+geom_point()
+```
+
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+geom_point(aes(color = species, shape = island))
+```
+
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+geom_point(aes(color = species, shape = species)) +
+facet_wrap(~island)
+```
+
+```{r}
+ggplot(mpg, aes(x = class)) +
+geom_bar()
+ggplot(mpg, aes(x = cty, y = hwy)) +
+geom_point()
+ggsave("mpg-plot.png")
+```
+
+
+
