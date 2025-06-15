@@ -1,0 +1,65 @@
+---
+title: "03. Data Transformation"
+author: "Cole LaCroix"
+date: "2025-06-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+```
+
+```{r}
+flights
+```
+
+```{r}
+glimpse(flights)
+```
+
+```{r}
+flights |>
+  filter(dep_delay > 120)
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
